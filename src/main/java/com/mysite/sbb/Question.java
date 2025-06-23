@@ -1,5 +1,6 @@
 package com.mysite.sbb;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -28,7 +29,7 @@ public class Question {
 
 	// createDate --> Table 매핑시 이름 --> create_date 이름이 변경됨. ==> 카멜표기법작성 --> _소문자로
 	// 변경됨.
-	private String createDate;
+	private LocalDateTime createDate;
 
 	// cascade = CascadeType.REMOVE --> question 삭제시 연관된 answer 삭제되도록 설정
 	@OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE) // question 기준 answer와의 관계 --> 1:M --> OneToMany
