@@ -1,5 +1,9 @@
 package com.mysite.sbb;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -29,18 +33,18 @@ class SbbApplicationTests {
 //		q2.setCreateDate(LocalDateTime.now());
 //		this.questionRepository.save(q2); // 두번째 질문 저장
 
-//		// findAll(): 모든 엔티티를 조회합니다. ==> 목록
-//		List<Question> all = this.questionRepository.findAll();
-//
-//		// Question 레코드 갯수가 동일한지... 4==> 기대값, all.size() ==> 검색값
-//		// assertEquals(4, all.size());
-//		assertEquals(2, all.size()); // error 기대값은 2인데 실제 findAll()은 4라서. // findAll()이 검색이 잘되었는지 테스트해봄.
-//		Question q = all.get(0); // 첫번째 행 가져옴.
-//		assertEquals("sbb가 도대체 무엇인가요?", q.getSubject()); // 제목이 동일한지 테스트
-//		
+		// findAll(): 모든 엔티티를 조회합니다. ==> 목록
+		List<Question> all = this.questionRepository.findAll();
+
+		// Question 레코드 갯수가 동일한지... 4==> 기대값, all.size() ==> 검색값
+		// assertEquals(4, all.size());
+		assertEquals(2, all.size()); // error 기대값은 2인데 실제 findAll()은 4라서. // findAll()이 검색이 잘되었는지 테스트해봄.
+		Question q = all.get(0); // 첫번째 행 가져옴.
+		assertEquals("sbb가 도대체 무엇인가요?", q.getSubject()); // 제목이 동일한지 테스트
+
 		// findById(id): 주어진 id를 가진 엔티티를 조회합니다.
 		// findById() : id값으로 검색. ==> 아이템
-		Question q2 = this.questionRepository.findById(1).get();
+//		Question q2 = this.questionRepository.findById(1).get();
 	}
 
 }
