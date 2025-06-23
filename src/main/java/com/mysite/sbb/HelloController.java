@@ -10,6 +10,6 @@ public class HelloController {
 	@GetMapping("/hello") // 메서드에 매핑
 	@ResponseBody
 	public String hello() {
-		return "Hello World == ㅑddㅑㅑㅑㅑ";
+		return "Hello World !!!";
 	}
 }
