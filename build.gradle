@@ -20,7 +20,7 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	//testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 	// devtools
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	//implementation 'org.springframework.boot:spring-boot-devtools'
@@ -33,6 +33,12 @@ dependencies {
     // JUnit
     testImplementation 'org.junit.jupiter:junit-jupiter' 
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    
+      // hibernate // use the versions from the platform
+ //   implementation "org.hibernate.orm:hibernate-core"
+  //  implementation "jakarta.transaction:jakarta.transaction-api"
+ 
+    implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.9.0'
 }
 
 tasks.named('test') {
