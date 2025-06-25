@@ -27,12 +27,17 @@ dependencies {
 	// lombok
 	compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
+    
     runtimeOnly 'com.h2database:h2'
     // JPA
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     // JUnit
     testImplementation 'org.junit.jupiter:junit-jupiter' 
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+   
+    // thymeleaf
+implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
     
       // hibernate // use the versions from the platform
  //   implementation "org.hibernate.orm:hibernate-core"

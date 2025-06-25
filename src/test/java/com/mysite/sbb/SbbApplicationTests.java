@@ -10,6 +10,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.mysite.sbb.answer.Answer;
+import com.mysite.sbb.answer.AnswerRepository;
+import com.mysite.sbb.question.Question;
+import com.mysite.sbb.question.QuestionRepository;
+
 import jakarta.transaction.Transactional;
 
 @SpringBootTest
@@ -25,7 +30,8 @@ class SbbApplicationTests {
 
 	// 테스트 작업할때는 서버가 돌면 충돌이나므로 서버 종료를 하고 처리.
 	@Test
-	@Transactional // DB 세션을 유지시켜준다.
+	@Transactional // DB 세션을 유지시켜준다. ==> 모든 DB 작업이 성공해야 커밋되고, 하나라도 실패하면 모두 롤백됨.
+	// 제일마지막에 있는 질문데이터를 통해 답장 데이터를 가지고 오는작업 할때만 사용, 그외 주석 이거나 사용X
 	void testJpa() {
 		// 저장 --> insert
 //		Question q1 = new Question();
@@ -46,6 +52,7 @@ class SbbApplicationTests {
 //		this.questionRepository.save(q2); // 두번째 질문 저장
 
 //		// 2-1. findAll(): 모든 엔티티를 조회합니다. ==> 목록
+		// DB에서 모든 레코드를 읽어오는 메서드.
 //		// .findAll() --> select * from Question
 //		List<Question> all = this.questionRepository.findAll();
 //
@@ -59,6 +66,7 @@ class SbbApplicationTests {
 //		// 2-2. findById(): 주어진 id를 가진 엔티티를 조회합니다. id값으로 검색. ==> 아이템
 //		// .findById(1) --> select * from Question where id==1
 //		// 값이 존재하는경우, 존재하지 않는 경우 : null ==> Optional은 null값을 유연하게 처리할수 있는class
+//		// Optional 중요##### 
 //		Optional<Question> op = this.questionRepository.findById(1);
 //
 //		// isPresent() : 값이 있는지 여부
