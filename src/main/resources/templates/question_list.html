@@ -24,32 +24,14 @@ td, th {
 				<th>작성일시</th>
 			</tr>
 		</thead>
+
 		<tbody>
-			<tr th:each="qitem : ${qlist}">
-				<td th:text="${qitem.subject}"
-					th:value="|location.href='/question/list/${qitem.id}'|"></td>
+			<tr th:each="qitem, index : ${qlist}">
+				<td><a th:href="@{|/question/detail/${qitem.id}|}"
+					th:text="${qitem.subject}"></a></td>
 				<td th:text="${qitem.createDate}"></td>
-				<!-- <td th:text="'hello spring'"> </td> -->
-				<!-- <td th:text="|hello ${qitem.id}|"> </td> -->
-				<!-- <td th:text="*{qitem.createDate?datetime('yyyy-MM-dd')}"></td> -->
 			</tr>
 		</tbody>
-	</table>
-	<table style="margin-top: 10px;">
-		<tr th:each="qitem : ${qlist}">
-			<td>hello [[${qitem.id}]] 'hello [[${qitem.id}]]' <br> <span
-				th:text="1==${qitem.id}"></span> <br>
-			<span th:utext="${qitem['subject']}"></span>
-				<div th:object="${qitem}">
-					<span th:text="*{['id']}"></span><br> <span
-						th:text="*{subject}"></span>
-				</div>
-				<div th:with="today=${#dates.createNow()}">
-				yyyy/mm/dd 형식 : <span th:text="${#dates.format(today,'yyyy/MM/dd')}"></span><br>
-				yyyy년mm월dd일 형식 : <span th:text="${#dates.format(today,'yyyy년MM월dd일')}"></span><br>
-				yyyy년 형식 : <span th:text="${#dates.year(today)}"></span>
-				</div></td>
-		</tr>
 	</table>
 </body>
 </html>
