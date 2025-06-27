@@ -4,34 +4,30 @@
 <head>
 <meta charset="UTF-8" />
 <title>질문 목록</title>
+<link rel="stylesheet" type="text/css" href="/css/style.css">
 </head>
-<style>
-table {
-	border-collapse: collapse;
-}
 
-td, th {
-	border: 1px solid black;
-	padding: 2px;
-}
-</style>
 <body>
-	<!-- 	<h2>안녕하세요</h2> -->
-	<table>
-		<thead>
-			<tr>
-				<th>제목</th>
-				<th>작성일시</th>
-			</tr>
-		</thead>
+	<h1>질문 목록</h1>
+	<div>
+		<table>
+			<thead>
+				<tr>
+					<th>제목</th>
+					<th>작성일시</th>
+				</tr>
+			</thead>
 
-		<tbody>
-			<tr th:each="qitem, index : ${qlist}">
-				<td><a th:href="@{|/question/detail/${qitem.id}|}"
-					th:text="${qitem.subject}"></a></td>
-				<td th:text="${qitem.createDate}"></td>
-			</tr>
-		</tbody>
-	</table>
+			<tbody>
+				<tr th:each="qitem, index : ${qlist}">
+					<td class="title"><a
+						th:href="@{|/question/detail/${qitem.id}|}"
+						th:text="${qitem.subject}"></a></td>
+					<td class="date"
+						th:text="${#temporals.format(qitem.createDate, 'yyyy-MM-dd HH:mm')}"></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
 </body>
 </html>

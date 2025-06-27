@@ -5,8 +5,6 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.mysite.sbb.DataNotFoundException;
-
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -27,8 +25,13 @@ public class QuestionService {
 
 		if (item.isPresent()) {
 			return item.get();
-		} else {
-			throw new DataNotFoundException("question not found");
 		}
+		return null;
+
+//		if (item.isPresent()) {
+//			return item.get();
+//		} else {
+//			throw new DataNotFoundException("question not found");
+//		}
 	}
 }
