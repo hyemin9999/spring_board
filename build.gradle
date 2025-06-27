@@ -36,12 +36,12 @@ dependencies {
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
    
     // thymeleaf
-implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
     
-      // hibernate // use the versions from the platform
- //   implementation "org.hibernate.orm:hibernate-core"
-  //  implementation "jakarta.transaction:jakarta.transaction-api"
+    // hibernate // use the versions from the platform
+ 	// implementation "org.hibernate.orm:hibernate-core"
+  	// implementation "jakarta.transaction:jakarta.transaction-api"
  
     implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.9.0'
 }

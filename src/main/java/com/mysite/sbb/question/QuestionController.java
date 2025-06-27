@@ -22,14 +22,14 @@ public class QuestionController {
 	public String list(Model model) {
 
 		List<Question> qlist = this.questionService.getList();
-		model.addAttribute("qlist", qlist);
+		model.addAttribute("questionList", qlist);
 		return "question_list";
 	}
 
 	@GetMapping(value = "/detail/{id}")
 	public String detail(Model model, @PathVariable("id") Integer id) {
-		Question aitem = this.questionService.getQuestion(id);
-		model.addAttribute("qitem", aitem);
+		Question question = this.questionService.getQuestion(id);
+		model.addAttribute("question", question);
 		return "question_detail";
 	}
 
