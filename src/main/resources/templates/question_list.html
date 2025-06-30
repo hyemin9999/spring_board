@@ -1,13 +1,8 @@
 <!doctype html>
 <!-- layout.html 부모 템플릿 사용을 위해 ==> layout:decorate="" -->
-<html lang="ko" xmlns:th="https://thymeleaf.org"
-	layout:decorate="~{layout}">
-
-<!-- <html lang="ko"> -->
+<html xmlns:th="https://thymeleaf.org" layout:decorate="~{layout}">
 <head>
-<meta charset="UTF-8" />
 <title>질문 목록</title>
-<!-- <link rel="stylesheet" type="text/css" th:href="@{/bootstrap.min.css}"> -->
 </head>
 <body>
 	<div layout:fragment="content" class="container my-3">
@@ -29,6 +24,7 @@
 				</tr>
 			</tbody>
 		</table>
+		<a th:href="@{/question/create}" class="btn btn-primary">질문 등록하기</a>
 	</div>
 </body>
 </html>
