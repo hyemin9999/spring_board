@@ -15,8 +15,14 @@
 <title>Hello, sbb!</title>
 </head>
 <body>
+	<!-- 메뉴 S -->
+	<nav th:replace="~{navbar :: navbarFragment}"></nav>
+	<!-- 메뉴 E -->
 	<!-- 기본 템플릿 안에 삽입될 내용 Start -->
 	<th:block layout:fragment="content"></th:block>
 	<!-- 기본 템플릿 안에 삽입될 내용 End -->
+	<!-- 최하단에 JS 파일 S -->
+	<script th:src="@{/bootstrap.min.js}"></script>
+	<!-- 최하단에 JS 파일 E -->
 </body>
 </html>

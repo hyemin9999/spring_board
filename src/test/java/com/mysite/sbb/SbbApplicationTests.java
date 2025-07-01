@@ -1,21 +1,12 @@
 package com.mysite.sbb;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import java.util.List;
-import java.util.Optional;
-
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.mysite.sbb.answer.Answer;
 import com.mysite.sbb.answer.AnswerRepository;
-import com.mysite.sbb.question.Question;
 import com.mysite.sbb.question.QuestionRepository;
-
-import jakarta.transaction.Transactional;
+import com.mysite.sbb.question.QuestionService;
 
 @SpringBootTest
 class SbbApplicationTests {
@@ -28,11 +19,23 @@ class SbbApplicationTests {
 	@Autowired
 	private AnswerRepository answerRepository;
 
+	@Autowired
+	private QuestionService questionService;
+
 	// 테스트 작업할때는 서버가 돌면 충돌이나므로 서버 종료를 하고 처리.
 	@Test
-	@Transactional // DB 세션을 유지시켜준다. ==> 모든 DB 작업이 성공해야 커밋되고, 하나라도 실패하면 모두 롤백됨.
+	// @Transactional // DB 세션을 유지시켜준다. ==> 모든 DB 작업이 성공해야 커밋되고, 하나라도 실패하면 모두 롤백됨.
 	// 제일마지막에 있는 질문데이터를 통해 답장 데이터를 가지고 오는작업 할때만 사용, 그외 주석 이거나 사용X
 	void testJpa() {
+
+//		// 테스트 데이터 300개 생성
+//		for (int i = 1; i <= 300; i++) {
+//			String subject = String.format("테스트 데이터입니다.:[%03d]", i);
+//			String content = "테스트 데이터 입니다.";
+//			this.questionService.create(subject, content);
+//		}
+
+		// -------------------------
 		// 저장 --> insert
 //		Question q1 = new Question();
 //		// 레파지토리랑 연결이 되어 있어야 값을 넣을수 있다.
@@ -123,22 +126,20 @@ class SbbApplicationTests {
 //		this.answerRepository.save(a);
 
 //		// 6. 답변데이터 조회하기
-//
 //		Optional<Answer> op = this.answerRepository.findById(1);
 //		assertTrue(op.isPresent()); // 검색 값이 존재하는지 확인
 //
 //		Answer a = op.get();
 //		assertEquals(2, a.getQuestion().getId());
 
-		// 7. 답변 데이터를 통해 질문 데이터 찾기 vs 질문 데이터를 통해 답변 데이터 찾기
-
-		Optional<Question> op = this.questionRepository.findById(2);
-		assertTrue(op.isPresent()); // 검색 값이 존재하는지 확인
-
-		Question q = op.get();
-		List<Answer> aList = q.getAnswerList(); // 세션이 유지됨. 이후에는 세션이 끊김. 그래서 아래부터 오류발생. --> 실무에서는 발생하지 않음.
-		assertEquals(1, aList.size());
-		assertEquals("답변입니다.", aList.get(0).getContent());
+//		// 7. 답변 데이터를 통해 질문 데이터 찾기 vs 질문 데이터를 통해 답변 데이터 찾기
+//		Optional<Question> op = this.questionRepository.findById(2);
+//		assertTrue(op.isPresent()); // 검색 값이 존재하는지 확인
+//
+//		Question q = op.get();
+//		List<Answer> aList = q.getAnswerList(); // 세션이 유지됨. 이후에는 세션이 끊김. 그래서 아래부터 오류발생. --> 실무에서는 발생하지 않음.
+//		assertEquals(1, aList.size());
+//		assertEquals("답변입니다.", aList.get(0).getContent());
 
 	}
 

@@ -27,6 +27,5 @@ public class Answer {
 	private LocalDateTime createDate;
 
 	@ManyToOne // answer 기준으로 question 과의 관계는 M:1 ==> ManyToOne --> Question에도 작성. // 중요
-//	@JoinColumn(name = "question_id")
 	private Question question; // question 테이블의 id와의 관계 정의 (FK) // 중요
 }
