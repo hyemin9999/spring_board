@@ -27,9 +27,16 @@ public class P6spyPrettySqlFormatter implements MessageFormattingStrategy {
 		String serviceInfo = getServiceNameFromStackTrace();
 
 		sql = formatSql(category, sql);
+
+		if (sql.trim().isEmpty()) { // sql 이 없다면 출력하지 않아도 됨
+			return "";
+		}
+//		// stack 을 구성하는 Format을 만든다
+//		sql = sql + createStack(connectionId, elapsed);
+
 //	    Date currentDate = new Date();
 //	    SimpleDateFormat format1 = new SimpleDateFormat("yy.MM.dd HH:mm:ss");
-//	    return now + "|" + elapsed + "ms|" + category + "|connection " + connectionId + "|" + P6Util.singleLine(prepared) + sql;
+//	    return now + "|" + elapsed + "ms|" + category + "|conneckition " + connectionId + "|" + P6Util.singleLine(prepared) + sql;
 //	    return format1.format(currentDate) + " | " + "OperationTime : " + elapsed + "ms" + sql;
 		return String.format("%s | took %dms | category: %s | connection: %d | %s | SQL: %s", serviceInfo, elapsed,
 				category, connectionId, now, sql);
@@ -58,5 +65,30 @@ public class P6spyPrettySqlFormatter implements MessageFormattingStrategy {
 
 		return sql;
 	}
+//	// stack 콘솔 표기
+//	private String createStack(int connectionId, long elapsed) {
+//		Stack<String> callStack = new Stack<>();
+//		StackTraceElement[] stackTrace = new Throwable().getStackTrace();
+//
+//		for (StackTraceElement stackTraceElement : stackTrace) {
+//			String trace = stackTraceElement.toString();
+//
+//			// trace 항목을 보고 내게 맞는 것만 필터
+//			if (trace.startsWith(ALLOW_FILTER) && !filterDenied(trace)) {
+//				callStack.push(trace);
+//			}
+//		}
+//
+//		StringBuffer sb = new StringBuffer();
+//		int order = 1;
+//		while (callStack.size() != 0) {
+//			sb.append("\n\t\t" + (order++) + "." + callStack.pop());
+//		}
+//
+//		return new StringBuffer().append("\n\n\tConnection ID:").append(connectionId).append(" | Excution Time:")
+//				.append(elapsed).append(" ms\n").append("\n\tExcution Time:").append(elapsed).append(" ms\n")
+//				.append("\n\tCall Stack :").append(sb).append("\n").append("\n--------------------------------------")
+//				.toString();
+//	}
 
 }

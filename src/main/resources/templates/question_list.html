@@ -1,5 +1,4 @@
 <!doctype html>
-<!-- layout.html 부모 템플릿 사용을 위해 ==> layout:decorate="" -->
 <html layout:decorate="~{layout}">
 <head>
 <title>질문 목록</title>
@@ -20,9 +19,8 @@
 					<td
 						th:text="${paging.getTotalElements - (paging.number * paging.size) - loop.index}"></td>
 					<td><a th:href="@{|/question/detail/${question.id}|}"
-						th:text="${question.subject}"></a> 
-						<!-- 답변갯수 표시하기 -->
-						<span class="text-danger small"
+						th:text="${question.subject}"></a> <!-- 답변갯수 표시하기 --> <span
+						class="text-danger small"
 						th:if="${#lists.size(question.answerList) > 0}"
 						th:text="${#lists.size(question.answerList)}"></span></td>
 					<td
