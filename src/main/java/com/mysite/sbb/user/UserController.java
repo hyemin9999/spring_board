@@ -23,7 +23,7 @@ public class UserController {
 		return "signup_form";
 	}
 
-	@PostMapping("signup")
+	@PostMapping("/signup")
 	public String signup(Model model, @Valid UserCreateForm userCreateForm, BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
 			return "signup_form";
@@ -50,5 +50,10 @@ public class UserController {
 		}
 
 		return "redirect:/";
+	}
+
+	@GetMapping("/login")
+	public String login() {
+		return "login_form";
 	}
 }

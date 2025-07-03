@@ -36,7 +36,9 @@
 					class="page-link" th:href="@{|?page=${paging.number-1}|}">이전</a></li>
 				<li class="page-item"
 					th:each="page: ${#numbers.sequence(0, paging.totalPages-1)}"
-					th:if="${((page >= paging.number-5) and (page <= paging.number+5))}"
+					th:if="${((page >= paging.number-5) and (page <= paging.number+5)) 
+					or (paging.number < 3 and page < 7) 
+					or (paging.number >= paging.totalPages-3 and page >= paging.totalPages-7)}"
 					th:classappend="${page == paging.number} ? 'active'"><a
 					class="page-link" th:href="@{|?page=${page}|}">[[${page+1}]]</a></li>
 				<li class="page-item" style="min-width: 60px;"

@@ -18,37 +18,38 @@ repositories {
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	implementation 'org.springframework.boot:spring-boot-starter-web'//
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'//
 	//testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 	
 	// devtools
-	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'//
 	//implementation 'org.springframework.boot:spring-boot-devtools'
 	// lombok
-	compileOnly 'org.projectlombok:lombok'
-    annotationProcessor 'org.projectlombok:lombok'
+	compileOnly 'org.projectlombok:lombok'//
+    annotationProcessor 'org.projectlombok:lombok'//
     // database
-    runtimeOnly 'com.h2database:h2'
+    runtimeOnly 'com.h2database:h2' //
     // JPA
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa' //
     // JUnit
     testImplementation 'org.junit.jupiter:junit-jupiter' 
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'//
     // thymeleaf
-    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'//
     implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
     // 스프링부트 validation
-    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'//
     // 스프링 시큐리티 
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
     
     
     // hibernate // use the versions from the platform
- 	// implementation "org.hibernate.orm:hibernate-core"
-  	// implementation "jakarta.transaction:jakarta.transaction-api"
+ 	implementation "org.hibernate.orm:hibernate-core"
+  	implementation "jakarta.transaction:jakarta.transaction-api"
  
+ 	// p6spy
     implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.9.0'
 }
 
