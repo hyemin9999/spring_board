@@ -4,8 +4,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.mysite.sbb.answer.AnswerRepository;
-import com.mysite.sbb.question.QuestionRepository;
 import com.mysite.sbb.question.QuestionService;
 
 @SpringBootTest
@@ -13,11 +11,11 @@ class SbbApplicationTests {
 
 	// new 사용을 안하고 선언만 했는데 생성됨. ==> Autowired
 	// 우리가 필요로 하는 객체를 주입.
-	@Autowired
-	private QuestionRepository questionRepository;
-
-	@Autowired
-	private AnswerRepository answerRepository;
+//	@Autowired
+//	private QuestionRepository questionRepository;
+//
+//	@Autowired
+//	private AnswerRepository answerRepository;
 
 	@Autowired
 	private QuestionService questionService;
@@ -32,7 +30,7 @@ class SbbApplicationTests {
 //		for (int i = 1; i <= 300; i++) {
 //			String subject = String.format("테스트 데이터입니다.:[%03d]", i);
 //			String content = "테스트 데이터 입니다.";
-//			this.questionService.create(subject, content);
+//			this.questionService.create(subject, content, null);
 //		}
 
 		// -------------------------

@@ -5,26 +5,30 @@
 </head>
 <body>
 	<div layout:fragment="content" class="container my-3">
-		<table class="table">
+		<table class="table table-hover">
 			<thead class="table-light border-top">
-				<tr>
+				<tr class="text-center">
 					<th>번호</th>
-					<th>제목</th>
+					<th class="text-start">제목</th>
+					<th>글쓴이</th>
 					<th>작성일시</th>
 				</tr>
 			</thead>
 			<tbody>
-				<tr th:each="question, loop : ${paging}">
+				<tr class="text-center" th:each="question, loop : ${paging}">
 					<!-- 게시물 번호 = 전체 게시물 개수 - (현재 페이지 * 페이지당 게시물 개수) - 나열 인덱스 -->
 					<td
 						th:text="${paging.getTotalElements - (paging.number * paging.size) - loop.index}"></td>
-					<td><a th:href="@{|/question/detail/${question.id}|}"
+					<td class="text-start"><a
+						th:href="@{|/question/detail/${question.id}|}"
 						th:text="${question.subject}"></a> <!-- 답변갯수 표시하기 --> <span
 						class="text-danger small"
 						th:if="${#lists.size(question.answerList) > 0}"
 						th:text="${#lists.size(question.answerList)}"></span></td>
+					<td><span th:if="${question.author != null}"
+						th:text="${question.author.username}"></span></td>
 					<td
-						th:text="${#temporals.format(question.createDate, 'yyyy-MM-dd HH:mm:ss.SSS')}"></td>
+						th:text="${#temporals.format(question.createDate, 'yyyy-MM-dd HH:mm')}"></td>
 				</tr>
 			</tbody>
 		</table>
@@ -37,8 +41,8 @@
 				<li class="page-item"
 					th:each="page: ${#numbers.sequence(0, paging.totalPages-1)}"
 					th:if="${((page >= paging.number-5) and (page <= paging.number+5)) 
-					or (paging.number < 3 and page < 7) 
-					or (paging.number >= paging.totalPages-3 and page >= paging.totalPages-7)}"
+					or (paging.number <= 5 and page <= 10) 
+					or (paging.number >= paging.totalPages-5 and page >= paging.totalPages-10)}"
 					th:classappend="${page == paging.number} ? 'active'"><a
 					class="page-link" th:href="@{|?page=${page}|}">[[${page+1}]]</a></li>
 				<li class="page-item" style="min-width: 60px;"
@@ -47,7 +51,7 @@
 			</ul>
 		</div>
 		<!-- 페이징 처리 E -->
-		<a th:href="@{/question/create}" class="btn btn-primary">질문 등록하기</a>
+		<a th:href="@{/question/create}" class="btn btn-primary">질문등록</a>
 	</div>
 </body>
 </html>

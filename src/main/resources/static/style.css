@@ -1,9 +1,15 @@
 /* @charset "UTF-8"; */
-
 textarea {
 	width: 100%;
 }
 
 input[type=submit] {
 	margin-top: 10px;
+}
+
+.container {table { th:last-child, td :last-child {
+width : 150px;
+	text-align: center;
+}
+}
 }

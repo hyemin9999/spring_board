@@ -2,7 +2,6 @@ package com.mysite.sbb.user;
 
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,13 +17,15 @@ public class UserController {
 
 	private final UserService userService;
 
+	/** 회원가입 페이지 이동 */
 	@GetMapping("/signup")
 	public String signup(UserCreateForm userCreateForm) {
 		return "signup_form";
 	}
 
+	/** 회원가입 처리 */
 	@PostMapping("/signup")
-	public String signup(Model model, @Valid UserCreateForm userCreateForm, BindingResult bindingResult) {
+	public String signup(@Valid UserCreateForm userCreateForm, BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
 			return "signup_form";
 		}
@@ -35,7 +36,7 @@ public class UserController {
 			return "signup_form";
 		}
 
-		// 중복 사용자id의 경우 처리
+		// 중복 사용자id의 경우 발생하는 Exception 처리
 		try {
 			this.userService.create(userCreateForm.getUsername(), userCreateForm.getEmail(),
 					userCreateForm.getPassword1());
@@ -52,6 +53,7 @@ public class UserController {
 		return "redirect:/";
 	}
 
+	/** 로그인 페이지 */
 	@GetMapping("/login")
 	public String login() {
 		return "login_form";
