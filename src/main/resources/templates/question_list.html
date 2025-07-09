@@ -30,6 +30,9 @@
 					<td
 						th:text="${#temporals.format(question.createDate, 'yyyy-MM-dd HH:mm')}"></td>
 				</tr>
+				<tr th:if="${hasContent == false}">
+					<td colspan="4">게시글이 존재하지 않습니다.</td>
+				</tr>
 			</tbody>
 		</table>
 		<!-- 페이징 처리 S -->

@@ -33,4 +33,6 @@ public class Answer {
 	// 사용자 한명이 여러개의 답글을 달수있다.
 	@ManyToOne
 	private SiteUser author;
+
+	private LocalDateTime modifyDate;
 }
