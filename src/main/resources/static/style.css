@@ -8,17 +8,22 @@ input[type=submit] {
 }
 
 .container .table {
-	th:last-child, 
-	td:last-child {  
+	th:last-child, td:last-child{   
 		width: 150px;
-		text-align: center;
-	}
-}
-.card d-flex>div {
-	min-width: 100px;
+	text-align: center;
 }
 
-.card d-flex div:nth-child(2) {
-	min-width: 250px;
-	text-align: right;
+}
+/* .card d-flex>div { */
+/* 	min-width: 100px; */
+/* 	width: 200px; */
+/* } */
+
+/* .card d-flex div:nth-child(2) { */
+/* 	min-width: 250px; */
+/* 	text-align: right; */
+/* } */
+
+.btn-outline-secondary {
+	background-color: white;
 }

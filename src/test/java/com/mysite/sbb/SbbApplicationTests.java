@@ -4,7 +4,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.mysite.sbb.question.QuestionService;
+import com.mysite.sbb.user.SiteUser;
+import com.mysite.sbb.user.UserService;
 
 @SpringBootTest
 class SbbApplicationTests {
@@ -17,14 +18,23 @@ class SbbApplicationTests {
 //	@Autowired
 //	private AnswerRepository answerRepository;
 
+//	@Autowired
+//	private QuestionService questionService;
+
 	@Autowired
-	private QuestionService questionService;
+	private UserService userService;
 
 	// 테스트 작업할때는 서버가 돌면 충돌이나므로 서버 종료를 하고 처리.
 	@Test
 	// @Transactional // DB 세션을 유지시켜준다. ==> 모든 DB 작업이 성공해야 커밋되고, 하나라도 실패하면 모두 롤백됨.
 	// 제일마지막에 있는 질문데이터를 통해 답장 데이터를 가지고 오는작업 할때만 사용, 그외 주석 이거나 사용X
 	void testJpa() {
+
+		// 사용자 비밀번호 수정
+
+		SiteUser user = this.userService.getUser("wwwww");
+
+		this.userService.modify(user, "", "1111");
 
 //		// 테스트 데이터 300개 생성
 //		for (int i = 1; i <= 300; i++) {

@@ -15,16 +15,16 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AnswerService {
 
-	// @RequiredArgsConstructor로 만들기 위해서는 private final를 꼭 사용해야 한다.
 	private final AnswerRepository answerRepository;
 
 	/**
-	 * 답글 등록 // 글쓴이 추가로 인해 return값이 void-->Answer로 변경됨.
+	 * 답변 등록 // 글쓴이 추가로 인해 return값이 void-->Answer로 변경됨.
 	 * 
 	 * @param question 질문
 	 * @param content  내용
 	 * @param author   글쓴이 ==> 로그인 사용자
-	 * @return 등록한 답글 항목
+	 * 
+	 * @return 등록한 답변 항목
 	 */
 	public Answer create(Question question, String content, SiteUser author) {
 
@@ -33,8 +33,6 @@ public class AnswerService {
 		item.setContent(content);
 		item.setCreateDate(LocalDateTime.now());
 		item.setQuestion(question);
-
-		// 글쓴이 등록
 		item.setAuthor(author);
 
 		this.answerRepository.save(item);
@@ -43,9 +41,14 @@ public class AnswerService {
 	}
 
 	/**
+	 * 답변 수정/삭제를 위한 답변 항목 반환
 	 * 
-	 * */
+	 * @param id 답변 id
+	 * 
+	 * @return 답변 항목
+	 */
 	public Answer getItem(Integer id) {
+
 		Optional<Answer> item = this.answerRepository.findById(id);
 
 		if (item.isPresent()) {
@@ -57,8 +60,11 @@ public class AnswerService {
 	}
 
 	/**
+	 * 답변 수정
 	 * 
-	 * */
+	 * @param item    답변
+	 * @param content 내용
+	 */
 	public void modify(Answer item, String content) {
 
 		item.setContent(content);
@@ -67,7 +73,26 @@ public class AnswerService {
 		this.answerRepository.save(item);
 	}
 
+	/**
+	 * 답변 삭제
+	 * 
+	 * @param item 답변
+	 */
 	public void delete(Answer item) {
+
 		this.answerRepository.delete(item);
+	}
+
+	/**
+	 * 답변 추천 저장
+	 * 
+	 * @param answer 답변
+	 * @param user   추천한 사용자
+	 */
+	public void vote(Answer item, SiteUser user) {
+
+		item.getVoter().add(user);
+
+		this.answerRepository.save(item);
 	}
 }

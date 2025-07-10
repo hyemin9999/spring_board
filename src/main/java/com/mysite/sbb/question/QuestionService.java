@@ -26,12 +26,13 @@ public class QuestionService {
 	 * 질문 목록을 페이징으로 반환하는 함수
 	 * 
 	 * @param page 페이징할 페이지번호
+	 * 
 	 * @return 질문 목록
 	 */
 	public Page<Question> getList(int page) {
 
-		// 최근등록 게시물부터 보이도록 sort
 		List<Sort.Order> sorts = new ArrayList<>();
+
 		sorts.add(Sort.Order.desc("createDate"));
 
 		Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
@@ -43,11 +44,11 @@ public class QuestionService {
 	 * 질문 항목을 반환하는 함수
 	 * 
 	 * @param id 질문 id (pk)
+	 * 
 	 * @return 질문 항목
 	 */
 	public Question getItem(Integer id) {
 
-		// 가져온 값이 없을경우(=null)를 체크하기 위해. Optional 사용
 		Optional<Question> item = this.questionRepository.findById(id);
 
 		if (item.isPresent()) {
@@ -71,7 +72,6 @@ public class QuestionService {
 		item.setSubject(subject);
 		item.setContent(content);
 		item.setCreateDate(LocalDateTime.now());
-		// 글쓴이
 		item.setAuthor(author);
 
 		this.questionRepository.save(item);
@@ -99,6 +99,21 @@ public class QuestionService {
 	 * @param item 질문
 	 */
 	public void delete(Question item) {
+
 		this.questionRepository.delete(item);
 	}
+
+	/**
+	 * 질문 추천 저장
+	 * 
+	 * @param item 질문
+	 * @param user 추천한 사용자
+	 */
+	public void vote(Question item, SiteUser user) {
+
+		item.getVoter().add(user);
+
+		this.questionRepository.save(item);
+	}
+
 }

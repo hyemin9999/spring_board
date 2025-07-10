@@ -17,45 +17,55 @@ public class UserController {
 
 	private final UserService userService;
 
-	/** 회원가입 페이지 이동 */
+	/**
+	 * 회원가입 GET
+	 */
 	@GetMapping("/signup")
 	public String signup(UserCreateForm userCreateForm) {
+
 		return "signup_form";
 	}
 
-	/** 회원가입 처리 */
+	/**
+	 * 회원가입 POST
+	 */
 	@PostMapping("/signup")
 	public String signup(@Valid UserCreateForm userCreateForm, BindingResult bindingResult) {
+
 		if (bindingResult.hasErrors()) {
 			return "signup_form";
 		}
 
-		// 비밀번호와 비밀번호 확인이 일치하지 않을 때
 		if (!userCreateForm.getPassword1().equals(userCreateForm.getPassword2())) {
 			bindingResult.rejectValue("password2", "passwordInCorrect", "2개의 패스워드가 일치하지 않습니다.");
+
 			return "signup_form";
 		}
 
-		// 중복 사용자id의 경우 발생하는 Exception 처리
 		try {
 			this.userService.create(userCreateForm.getUsername(), userCreateForm.getEmail(),
 					userCreateForm.getPassword1());
 		} catch (DataIntegrityViolationException e) {
 			e.printStackTrace();
 			bindingResult.reject("signupFailed", "이미 등록된 사용자입니다.");
+
 			return "signup_form";
 		} catch (Exception e) {
 			e.printStackTrace();
 			bindingResult.reject("signupFailed", e.getMessage());
+
 			return "signup_form";
 		}
 
 		return "redirect:/";
 	}
 
-	/** 로그인 페이지 */
+	/**
+	 * 로그인
+	 */
 	@GetMapping("/login")
 	public String login() {
+
 		return "login_form";
 	}
 }

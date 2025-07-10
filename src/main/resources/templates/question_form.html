@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html layout:decorate="~{layout}">
 <head>
-<title>질문등록</title>
+<title>질문 [[${#strings.contains(mode,'create')} ? '등록':'수정']]</title>
 </head>
 <body>
 	<div layout:fragment="content" class="container">
-		<h5 class="my-3 border-bottom pb-2">질문등록</h5>
+		<h5 class="my-3 border-bottom pb-2">
+			질문 <span th:text="${#strings.contains(mode,'create')} ? '등록':'수정'"></span>
+		</h5>
 		<form method="post" th:object="${questionForm}">
 			<input type="hidden" th:name="${_csrf.parameterName}"
 				th:value="${_csrf.token}" />

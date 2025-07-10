@@ -22,34 +22,54 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @Controller
-@RequestMapping("/answer") // url prifix
-@RequiredArgsConstructor // 의존성 주입
+@RequestMapping("/answer")
+@RequiredArgsConstructor
 public class AnswerController {
 
-	// DI(객체 주입 ==> Question, Answer, SiteUser)
 	private final QuestionService questionService;
 	private final AnswerService answerService;
 	private final UserService userService;
 
-	// principal ==> 로그아웃 상태에서는 사용불가.
+	/**
+	 * 답변 등록 POST
+	 * 
+	 * @param model         유효성 검사가 실패하면 질문 정보를 담을 객체
+	 * @param qid           질문 id
+	 * @param answerForm    답변 유효성 검사를 위한 객체
+	 * @param bindingResult 유효성 검사 결과값
+	 * @param principal     로그인 사용자 정보
+	 * 
+	 * @return 질문 상세 페이지 ==> "/question/detail/{qid}#answer_{id}"
+	 */
 	@PreAuthorize("isAuthenticated()")
 	@PostMapping("/create/{qid}")
-	public String creater(Model model, @PathVariable("qid") Integer id, @Valid AnswerForm answerForm,
+	public String creater(Model model, @PathVariable("qid") Integer qid, @Valid AnswerForm answerForm,
 			BindingResult bindingResult, Principal principal) {
 
-		Question question = this.questionService.getItem(id);
+		Question question = this.questionService.getItem(qid);
 		SiteUser author = this.userService.getUser(principal.getName());
 
 		if (bindingResult.hasErrors()) {
 			model.addAttribute("question", question);
+
 			return "question_detail";
 		}
 
-		this.answerService.create(question, answerForm.getContent(), author);
+		Answer item = this.answerService.create(question, answerForm.getContent(), author);
 
-		return String.format("redirect:/question/detail/%s", id);
+		// 답변 앵커 기능을 위한 #answer_id ==> 답변 등록/수정 시 해당 답변으로 위치가 이동될수 있도록 처리
+		return String.format("redirect:/question/detail/%s#answer_%s", qid, item.getId());
 	}
 
+	/**
+	 * 답변 수정 GET
+	 * 
+	 * @param answerForm 답변 수정시 @valid를 위한 객체
+	 * @param id         답변 id
+	 * @param principal  로그인 사용자
+	 * 
+	 * @return 답변 수정 페이지 ==> "answer_form"
+	 */
 	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/modify/{id}")
 	public String modify(AnswerForm answerForm, @PathVariable("id") Integer id, Principal principal) {
@@ -59,10 +79,22 @@ public class AnswerController {
 		if (!item.getAuthor().getUsername().equals(principal.getName())) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
 		}
+
 		answerForm.setContent(item.getContent());
+
 		return "answer_form";
 	}
 
+	/**
+	 * 답변 수정 POST
+	 * 
+	 * @param answerForm    답변 수정시 유효성 검사를 위한 객체
+	 * @param bindingResult 유효성 검사 결과
+	 * @param id            답변 id
+	 * @param principal     로그인 사용자
+	 * 
+	 * @return 질문 상세 페이지 ==> "/question/detail/{qid}#answer_{id}"
+	 */
 	@PreAuthorize("isAuthenticated()")
 	@PostMapping("/modify/{id}")
 	public String modify(@Valid AnswerForm answerForm, BindingResult bindingResult, @PathVariable("id") Integer id,
@@ -80,9 +112,17 @@ public class AnswerController {
 
 		this.answerService.modify(item, answerForm.getContent());
 
-		return String.format("redirect:/question/detail/%s", item.getQuestion().getId());
+		return String.format("redirect:/question/detail/%s#answer_%s", item.getQuestion().getId(), item.getId());
 	}
 
+	/**
+	 * 답변 삭제 GET
+	 * 
+	 * @param principal 로그인 사용자
+	 * @param id        답변 id
+	 * 
+	 * @return 질문 상세 페이지 ==> "/question/detail/{qid}"
+	 */
 	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/delete/{id}")
 	public String delete(Principal principal, @PathVariable("id") Integer id) {
@@ -96,5 +136,25 @@ public class AnswerController {
 		this.answerService.delete(item);
 
 		return String.format("redirect:/question/detail/%s", item.getQuestion().getId());
+	}
+
+	/**
+	 * 답변 추천 저장
+	 * 
+	 * @param principal 로그인 사용자
+	 * @param id        답변 id
+	 * 
+	 * @return 질문 상세 페이지 ==> "/question/detail/{qid}#answer_{id}"
+	 */
+	@PreAuthorize("isAuthenticated()")
+	@GetMapping("/vote/{id}")
+	public String vote(Principal principal, @PathVariable("id") Integer id) {
+
+		Answer item = this.answerService.getItem(id);
+		SiteUser user = this.userService.getUser(principal.getName());
+
+		this.answerService.vote(item, user);
+
+		return String.format("redirect:/question/detail/%s#answer_%s", item.getQuestion().getId(), item.getId());
 	}
 }

@@ -2,6 +2,7 @@ package com.mysite.sbb.question;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 import com.mysite.sbb.answer.Answer;
 import com.mysite.sbb.user.SiteUser;
@@ -12,6 +13,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.Getter;
@@ -21,29 +23,37 @@ import lombok.Setter;
 @Setter
 @Entity
 public class Question {
-	// Integer ==> int 타입을 객체화 시키는...
-	@Id // pk로 설정
-	@GeneratedValue(strategy = GenerationType.IDENTITY) // 자동으로 순번 적용
-	private Integer id; // 추후 id --> null check --> Integer 사용
 
-	@Column(length = 200) // 200자로 정의
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer id;
+
+	// 제목
+	@Column(length = 200)
 	private String subject;
-	@Column(columnDefinition = "TEXT") // "TEXT" 길이 제한이 없는.
+
+	// 내용
+	@Column(columnDefinition = "TEXT")
 	private String content;
 
-	// createDate --> Table 매핑시 이름 --> create_date 이름이 변경됨. ==> 카멜표기법작성 --> _소문자로
-	// 변경됨.
+	// 등록날짜
 	private LocalDateTime createDate;
 
-	// cascade = CascadeType.REMOVE --> question 삭제시 연관된 answer 삭제되도록 설정
-	// question 기준 answer와의 관계 --> 1:M --> OneToMany
+	// 해당 질문에 있는 답변 목록
 	@OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE)
 	private List<Answer> answerList;
 
-	// 사용자 한명이 여러개의 게시글을 등록할수 있다.
+	// 작성자
 	@ManyToOne
 	private SiteUser author;
 
+	// 수정날짜
 	private LocalDateTime modifyDate;
 
+	// 추천
+	// Set ==> 집합 ==> 중복된 요소를 허용하지 않는 컬렉션, 수학에서의 집합과 유사, 순서가 보장되지 않음.
+	// 하나의 질문에 여러개의 추천이 있을수 있고, 추천은 여러개의 질문에 있을수 있다.
+	// M:M의 경우 새로운 테이블이 존재 해야 한다.
+	@ManyToMany
+	Set<SiteUser> voter;
 }

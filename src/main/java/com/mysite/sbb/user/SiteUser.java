@@ -17,11 +17,14 @@ public class SiteUser {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id; // Long 래퍼 class
 
+	// 이름 == ID
 	@Column(unique = true)
 	private String username;
 
+	// 비밀번호
 	private String password;
 
+	// 이메일
 	@Column(unique = true)
 	private String email;
 }
