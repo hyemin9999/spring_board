@@ -8,6 +8,9 @@
 <link rel="stylesheet" type="text/css" th:href="@{/bootstrap.min.css}">
 <!-- sbb CSS -->
 <link rel="stylesheet" type="text/css" th:href="@{/style.css}">
+<!-- Editor's Style -->
+<link rel="stylesheet"
+	href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
 <title>Hello, sbb!</title>
 </head>
 <body>
@@ -19,6 +22,9 @@
 	<!-- 기본 템플릿 안에 삽입될 내용 End -->
 	<!-- 최하단에 JS 파일 S -->
 	<script th:src="@{/bootstrap.min.js}"></script>
+	<!-- Editor's script -->
+	<script
+		src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
 	<th:block layout:fragment="script"></th:block>
 	<!-- 최하단에 JS 파일 E -->
 </body>

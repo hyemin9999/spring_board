@@ -14,5 +14,4 @@ public class QuestionForm {
 	private String subject;
 	@NotEmpty(message = "내용은 필수항목입니다.") // 공백(" ")은 허용하되, Null과 빈 문자열("")은 허용하지 않음
 	private String content;
-
 }

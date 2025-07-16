@@ -1,5 +1,7 @@
 package com.mysite.sbb.question;
 
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.security.Principal;
 
 import org.springframework.data.domain.Page;
@@ -31,21 +33,23 @@ public class QuestionController {
 	private final UserService userService;
 
 	/**
-	 * 질문 게시판 ==> 질문 목록 반환
+	 * 질문 게시판 ==> 질문 목록 반환<br/>
+	 * - 검색 기능을 위한 수정
 	 * 
 	 * @param model 반환할 질문 목록을 템플릿에 보낼때 사용 .addAttribute()
 	 * @param page  추가한 페이지 기능의 페이지 초기값은 0
+	 * @param kw    검색키워드
 	 * 
 	 * @return 질문 목록 페이지 ==> question_list
 	 */
 	@GetMapping("/list")
-	public String list(Model model, @RequestParam(value = "page", defaultValue = "0") int page) {
+	public String list(Model model, @RequestParam(value = "page", defaultValue = "0") int page,
+			@RequestParam(value = "kw", defaultValue = "") String kw) {
 
-		Page<Question> list = this.questionService.getList(page);
-
+		Page<Question> list = this.questionService.getList(page, kw);
 		model.addAttribute("paging", list);
-		model.addAttribute("hasContent", list.hasContent());
-
+		model.addAttribute("kw", kw); // 검색어 화면에 유지하기 위함
+		model.addAttribute("hasContent", list.hasContent()); // 목록이 없을때
 		return "question_list";
 	}
 
@@ -62,9 +66,7 @@ public class QuestionController {
 	public String detail(Model model, @PathVariable("id") Integer id, AnswerForm answerForm) {
 
 		Question item = this.questionService.getItem(id);
-
 		model.addAttribute("question", item);
-
 		return "question_detail";
 	}
 
@@ -81,7 +83,6 @@ public class QuestionController {
 	public String create(Model model, QuestionForm questionForm) {
 
 		model.addAttribute("mode", "create");
-
 		return "question_form";
 	}
 
@@ -102,14 +103,11 @@ public class QuestionController {
 
 		if (bindingResult.hasErrors()) {
 			model.addAttribute("mode", "create");
-
 			return "question_form";
 		}
-
 		SiteUser author = this.userService.getUser(principal.getName());
-
-		this.questionService.create(questionForm.getSubject(), questionForm.getContent(), author);
-
+		String con = URLDecoder.decode(questionForm.getContent(), StandardCharsets.UTF_8);
+		this.questionService.create(questionForm.getSubject(), con, author);
 		return "redirect:/question/list"; // 질문 저장후 질문목록으로 이동
 	}
 
@@ -128,16 +126,12 @@ public class QuestionController {
 	public String modify(Model model, QuestionForm questionForm, @PathVariable("id") Integer id, Principal principal) {
 
 		model.addAttribute("mode", "modify");
-
 		Question item = this.questionService.getItem(id);
-
 		if (!item.getAuthor().getUsername().equals(principal.getName())) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
 		}
-
 		questionForm.setSubject(item.getSubject());
 		questionForm.setContent(item.getContent());
-
 		return "question_form";
 	}
 
@@ -158,18 +152,14 @@ public class QuestionController {
 
 		if (bindingResult.hasErrors()) {
 			model.addAttribute("mode", "mofidy");
-
 			return "question_form";
 		}
-
 		Question item = this.questionService.getItem(id);
-
 		if (!item.getAuthor().getUsername().equals(principal.getName())) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
 		}
-
-		this.questionService.modify(item, questionForm.getSubject(), questionForm.getContent());
-
+		String con = URLDecoder.decode(questionForm.getContent(), StandardCharsets.UTF_8);
+		this.questionService.modify(item, questionForm.getSubject(), con);
 		return String.format("redirect:/question/detail/%s", id);
 	}
 
@@ -186,13 +176,10 @@ public class QuestionController {
 	public String delete(Principal principal, @PathVariable("id") Integer id) {
 
 		Question item = this.questionService.getItem(id);
-
 		if (!item.getAuthor().getUsername().equals(principal.getName())) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제권한이 없습니다.");
 		}
-
 		this.questionService.delete(item);
-
 		return "redirect:/question/list";
 	}
 
@@ -210,9 +197,7 @@ public class QuestionController {
 
 		Question item = this.questionService.getItem(id);
 		SiteUser user = this.userService.getUser(principal.getName());
-
 		this.questionService.vote(item, user);
-
 		return String.format("redirect:/question/detail/%s", id);
 	}
 }

@@ -48,15 +48,12 @@ public class AnswerController {
 
 		Question question = this.questionService.getItem(qid);
 		SiteUser author = this.userService.getUser(principal.getName());
-
 		if (bindingResult.hasErrors()) {
 			model.addAttribute("question", question);
 
 			return "question_detail";
 		}
-
 		Answer item = this.answerService.create(question, answerForm.getContent(), author);
-
 		// 답변 앵커 기능을 위한 #answer_id ==> 답변 등록/수정 시 해당 답변으로 위치가 이동될수 있도록 처리
 		return String.format("redirect:/question/detail/%s#answer_%s", qid, item.getId());
 	}
@@ -75,13 +72,10 @@ public class AnswerController {
 	public String modify(AnswerForm answerForm, @PathVariable("id") Integer id, Principal principal) {
 
 		Answer item = this.answerService.getItem(id);
-
 		if (!item.getAuthor().getUsername().equals(principal.getName())) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
 		}
-
 		answerForm.setContent(item.getContent());
-
 		return "answer_form";
 	}
 
@@ -103,15 +97,11 @@ public class AnswerController {
 		if (bindingResult.hasErrors()) {
 			return "answer_form";
 		}
-
 		Answer item = this.answerService.getItem(id);
-
 		if (!item.getAuthor().getUsername().equals(principal.getName())) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
 		}
-
 		this.answerService.modify(item, answerForm.getContent());
-
 		return String.format("redirect:/question/detail/%s#answer_%s", item.getQuestion().getId(), item.getId());
 	}
 
@@ -128,13 +118,10 @@ public class AnswerController {
 	public String delete(Principal principal, @PathVariable("id") Integer id) {
 
 		Answer item = this.answerService.getItem(id);
-
 		if (!item.getAuthor().getUsername().equals(principal.getName())) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제권한이 없습니다");
 		}
-
 		this.answerService.delete(item);
-
 		return String.format("redirect:/question/detail/%s", item.getQuestion().getId());
 	}
 
@@ -152,9 +139,7 @@ public class AnswerController {
 
 		Answer item = this.answerService.getItem(id);
 		SiteUser user = this.userService.getUser(principal.getName());
-
 		this.answerService.vote(item, user);
-
 		return String.format("redirect:/question/detail/%s#answer_%s", item.getQuestion().getId(), item.getId());
 	}
 }
