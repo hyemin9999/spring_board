@@ -2,6 +2,8 @@
 <html layout:decorate="~{layout}">
 <head>
 <title>질문 [[${#strings.contains(mode,'create')} ? '등록':'수정']]</title>
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/panda-syntax-light.min.css">
 </head>
 <body>
 	<div layout:fragment="content" class="container">
@@ -20,36 +22,35 @@
 				<label for="content" class="form-label">내용</label>
 				<!-- <textarea th:field="*{content}" class="form-control" rows="10"></textarea> -->
 				<div id="content" name="content" class="form-control"></div>
-				<input type="textarea" name="content" id="ecp" hidden
-					style="display: block;">
+				<input type="textarea" name="content" id="ecp" hidden> <input
+					type="hidden" id="ecp1" th:field="*{content}">
 			</div>
 			<input type="submit" value="저장" class="btn btn-primary my-2">
 		</form>
 	</div>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/lib/common"></script>
 	<script layout:fragment="script" type="text/javascript"
 		th:inline="javascript">
-		var content = '[[${questionForm.content}]]';
-		if (content == 'null') {
-			content = "";
-		} else {
-			if (content.startsWith('"') && content.endsWith('"')) {
-				content = content.substr(1, content.length - 2);
-			}
-		}
+// 		const content = document.querySelector('#ecp1').value;
 
 		const editor = new toastui.Editor({
 			el : document.querySelector('#content'), // 에디터를 적용할 요소 (컨테이너)
 			height : '500px', // 에디터 영역의 높이 값 (OOOpx || auto)
 			initialEditType : 'markdown', // 최초로 보여줄 에디터 타입 (markdown || wysiwyg)
-			initialValue : '', // 내용의 초기 값으로, 반드시 마크다운 문자열 형태여야 함
+			initialValue : document.querySelector('#ecp1').value, // 내용의 초기 값으로, 반드시 마크다운 문자열 형태여야 함
 			previewStyle : 'vertical', // 마크다운 프리뷰 스타일 (tab || vertical)
 			addImageBlobHook : null,
 			toolbarItems : [ [ 'heading', 'bold', 'italic', 'strike' ],
 					[ 'hr', 'quote' ],
 					[ 'ul', 'ol', 'task', 'indent', 'outdent' ],
-					[ 'table', 'link' ], [ 'code', 'codeblock' ] ]
+					[ 'table', 'link' ], [ 'code', 'codeblock' ] ],
+			placeholder : '내용을 입력해 주세요.',
 		});
-		editor.setMarkdown(content);
+
+// 		editor.setMarkdown(content);
 
 		document.querySelector('form').addEventListener('submit',
 				function(event) {

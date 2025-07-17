@@ -11,6 +11,9 @@
 <!-- Editor's Style -->
 <link rel="stylesheet"
 	href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+
 <title>Hello, sbb!</title>
 </head>
 <body>
@@ -22,9 +25,14 @@
 	<!-- 기본 템플릿 안에 삽입될 내용 End -->
 	<!-- 최하단에 JS 파일 S -->
 	<script th:src="@{/bootstrap.min.js}"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
 	<!-- Editor's script -->
 	<script
 		src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+	<script>
+		hljs.highlightAll();
+	</script>
 	<th:block layout:fragment="script"></th:block>
 	<!-- 최하단에 JS 파일 E -->
 </body>

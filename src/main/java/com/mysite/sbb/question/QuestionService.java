@@ -46,6 +46,7 @@ public class QuestionService {
 		// 추가 및 수정 - 검색기능
 		Specification<Question> spec = search(kw);
 		return this.questionRepository.findAll(spec, pageable);
+
 	}
 
 	/**
@@ -132,10 +133,11 @@ public class QuestionService {
 
 			@Override
 			public Predicate toPredicate(Root<Question> q, CriteriaQuery<?> query, CriteriaBuilder cb) {
+
 				query.distinct(true); // 중복을 제거
 				Join<Question, SiteUser> u1 = q.join("author", JoinType.LEFT); // 질문과 작성자
 				Join<Question, Answer> a = q.join("answerList", JoinType.LEFT); // 질문과 답변
-				Join<Answer, SiteUser> u2 = q.join("author", JoinType.LEFT); // 답변과 작성자
+				Join<Answer, SiteUser> u2 = a.join("author", JoinType.LEFT); // 답변과 작성자
 
 				return cb.or(cb.like(q.get("subject"), "%" + kw + "%"), // 질문
 						cb.like(q.get("content"), "%" + kw + "%"), // 내용
