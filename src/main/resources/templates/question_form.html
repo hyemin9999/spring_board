@@ -34,7 +34,6 @@
 		src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/lib/common"></script>
 	<script layout:fragment="script" type="text/javascript"
 		th:inline="javascript">
-// 		const content = document.querySelector('#ecp1').value;
 
 		const editor = new toastui.Editor({
 			el : document.querySelector('#content'), // 에디터를 적용할 요소 (컨테이너)
@@ -49,8 +48,6 @@
 					[ 'table', 'link' ], [ 'code', 'codeblock' ] ],
 			placeholder : '내용을 입력해 주세요.',
 		});
-
-// 		editor.setMarkdown(content);
 
 		document.querySelector('form').addEventListener('submit',
 				function(event) {

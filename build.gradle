@@ -17,39 +17,86 @@ repositories {
 	mavenCentral()
 }
 
-dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-web'//
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'//
+//dependencies {
+	//implementation 'org.springframework.boot:spring-boot-starter-web'//
+	//testImplementation 'org.springframework.boot:spring-boot-starter-test'//
 	
-	// devtools
-	developmentOnly 'org.springframework.boot:spring-boot-devtools'//
-	//implementation 'org.springframework.boot:spring-boot-devtools'
-	// lombok
-	compileOnly 'org.projectlombok:lombok'//
-    annotationProcessor 'org.projectlombok:lombok'//
-    // database
-    runtimeOnly 'com.h2database:h2' //
-    // JPA
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa' //
-    // JUnit
-    testImplementation 'org.junit.jupiter:junit-jupiter' 
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'//
-    // thymeleaf
-    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'//
-    implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
-    // validation
-    implementation 'org.springframework.boot:spring-boot-starter-validation'//
-    // security 
-    implementation 'org.springframework.boot:spring-boot-starter-security'
-    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
-    // markdown
-    implementation 'org.commonmark:commonmark:0.21.0'
+	//// devtools
+	//developmentOnly 'org.springframework.boot:spring-boot-devtools'//
+	////implementation 'org.springframework.boot:spring-boot-devtools'
+	//// lombok
+	//compileOnly 'org.projectlombok:lombok'//
+    //annotationProcessor 'org.projectlombok:lombok'//
+    //// database
+    //runtimeOnly 'com.h2database:h2' //
+    //// JPA
+    //implementation 'org.springframework.boot:spring-boot-starter-data-jpa' //
+    //// JUnit
+    //testImplementation 'org.junit.jupiter:junit-jupiter' 
+    //testRuntimeOnly 'org.junit.platform:junit-platform-launcher'//
+    //// thymeleaf
+    //implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'//
+    //implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
+    //// validation
+    //implementation 'org.springframework.boot:spring-boot-starter-validation'//
+    //// security 
+    //implementation 'org.springframework.boot:spring-boot-starter-security'
+    //implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
+    //// markdown
+    //implementation 'org.commonmark:commonmark:0.21.0'
     
-    // hibernate // use the versions from the platform
+    //// hibernate // use the versions from the platform
+ 	//implementation "org.hibernate.orm:hibernate-core"
+  	//implementation "jakarta.transaction:jakarta.transaction-api"
+ 
+// 	// p6spy
+  //  implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.9.0'
+//} 
+
+ 
+ dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+	// lombok
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+
+	// H2 (사용 안 하면 제거 가능)
+	// runtimeOnly 'com.h2database:h2'
+
+	//// ✅ MariaDB
+    //runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
+
+// MysqlDB
+implementation 'mysql:mysql-connector-java:8.0.42'
+
+
+	// JPA
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+	// Thymeleaf
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
+
+	// Validation
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+	// Security
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
+
+	// Markdown
+	implementation 'org.commonmark:commonmark:0.21.0'
+	
+	
+	    //// hibernate // use the versions from the platform
  	implementation "org.hibernate.orm:hibernate-core"
   	implementation "jakarta.transaction:jakarta.transaction-api"
- 
- 	// p6spy
+	
+	 	// p6spy
     implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.9.0'
 }
 

@@ -13,8 +13,6 @@
 				<!-- 					th:utext="${@commonUtil.markdown(question.content)}"></div> -->
 				<div id="viewer" class="card-text"></div>
 				<input type="hidden" id="ecp1" th:value="${question.content}">
-				<!-- 				<input type="textarea" name="content" id="ecp" hidden -->
-				<!-- 					style="display: block;"> -->
 				<div class="d-flex justify-content-between mt-2">
 					<!-- modify & delete btn -->
 					<div class="mt-3">
@@ -134,13 +132,11 @@
 			});
 		});
 
-// 		const content = '[[${question.content}]]';
-		const viewer = new toastui.Editor({
+		const viewer = new toastui.Editor.factory({
 			el : document.querySelector('#viewer'),
+			viewer : true,
 			initialValue : document.querySelector('#ecp1').value
 		});
-
-// 		viewer.setMarkdown(content);
 	</script>
 </body>
 </html>

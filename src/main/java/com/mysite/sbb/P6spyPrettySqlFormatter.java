@@ -1,11 +1,8 @@
 package com.mysite.sbb;
 
-import java.util.Locale;
-
 import org.hibernate.engine.jdbc.internal.FormatStyle;
 import org.springframework.util.StringUtils;
 
-import com.p6spy.engine.logging.Category;
 import com.p6spy.engine.spy.appender.MessageFormattingStrategy;
 
 public class P6spyPrettySqlFormatter implements MessageFormattingStrategy {
@@ -24,47 +21,76 @@ public class P6spyPrettySqlFormatter implements MessageFormattingStrategy {
 	@Override
 	public String formatMessage(int connectionId, String now, long elapsed, String category, String prepared,
 			String sql, String url) {
-		String serviceInfo = getServiceNameFromStackTrace();
+//		String serviceInfo = getServiceNameFromStackTrace();
+//
+//		sql = formatSql(category, sql);
+//
+//		if (sql.trim().isEmpty()) { // sql 이 없다면 출력하지 않아도 됨
+//			return "";
+//		}
+////		// stack 을 구성하는 Format을 만든다
+////		sql = sql + createStack(connectionId, elapsed);
+//
+////	    Date currentDate = new Date();
+////	    SimpleDateFormat format1 = new SimpleDateFormat("yy.MM.dd HH:mm:ss");
+////	    return now + "|" + elapsed + "ms|" + category + "|conneckition " + connectionId + "|" + P6Util.singleLine(prepared) + sql;
+////	    return format1.format(currentDate) + " | " + "OperationTime : " + elapsed + "ms" + sql;
+//		return String.format("%s | took %dms | category: %s | connection: %d | %s | SQL: %s", serviceInfo, elapsed,
+//				category, connectionId, now, sql);
 
-		sql = formatSql(category, sql);
-
-		if (sql.trim().isEmpty()) { // sql 이 없다면 출력하지 않아도 됨
-			return "";
+		StringBuilder sb = new StringBuilder();
+		sb.append(category).append(" ").append(elapsed).append("ms");
+		if (StringUtils.hasText(sql)) {
+			sb.append(highlight(format(sql)));
 		}
-//		// stack 을 구성하는 Format을 만든다
-//		sql = sql + createStack(connectionId, elapsed);
-
-//	    Date currentDate = new Date();
-//	    SimpleDateFormat format1 = new SimpleDateFormat("yy.MM.dd HH:mm:ss");
-//	    return now + "|" + elapsed + "ms|" + category + "|conneckition " + connectionId + "|" + P6Util.singleLine(prepared) + sql;
-//	    return format1.format(currentDate) + " | " + "OperationTime : " + elapsed + "ms" + sql;
-		return String.format("%s | took %dms | category: %s | connection: %d | %s | SQL: %s", serviceInfo, elapsed,
-				category, connectionId, now, sql);
+		return sb.toString();
 	}
 
-	private String formatSql(String category, String sql) {
-		if (sql == null || sql.trim().isEmpty()) {
-			return sql;
+	private String format(String sql) {
+		if (isDDL(sql)) {
+			return FormatStyle.DDL.getFormatter().format(sql);
+		} else if (isBasic(sql)) {
+			return FormatStyle.BASIC.getFormatter().format(sql);
 		}
-
-		// Only format Statement, distinguish DDL And DML
-		if (Category.STATEMENT.getName().equals(category)) {
-			String tmpsql = sql.trim().toLowerCase(Locale.ROOT);
-			if (tmpsql.startsWith("create") || tmpsql.startsWith("alter") || tmpsql.startsWith("comment")) {
-				sql = FormatStyle.DDL.getFormatter().format(sql);
-			} else {
-				sql = FormatStyle.BASIC.getFormatter().format(sql);
-			}
-
-			if (StringUtils.hasText(sql)) {
-				sql = FormatStyle.HIGHLIGHT.getFormatter().format(sql);
-			}
-
-			sql = "|\nHeFormatSql(P6Spy sql,Hibernate format):" + sql;
-		}
-
 		return sql;
 	}
+
+	private String highlight(String sql) {
+		return FormatStyle.HIGHLIGHT.getFormatter().format(sql);
+	}
+
+	private boolean isDDL(String sql) {
+		return sql.startsWith("create") || sql.startsWith("alter") || sql.startsWith("comment");
+	}
+
+	private boolean isBasic(String sql) {
+		return sql.startsWith("select") || sql.startsWith("insert") || sql.startsWith("update")
+				|| sql.startsWith("delete");
+	}
+//	private String formatSql(String category, String sql) {
+//		if (sql == null || sql.trim().isEmpty()) {
+//			return sql;
+//		}
+//
+//		// Only format Statement, distinguish DDL And DML
+//		if (Category.STATEMENT.getName().equals(category)) {
+//
+//			String tmpsql = sql.trim().toLowerCase(Locale.ROOT);
+//			if (tmpsql.startsWith("create") || tmpsql.startsWith("alter") || tmpsql.startsWith("comment")) {
+//				sql = FormatStyle.DDL.getFormatter().format(sql);
+//			} else {
+//				sql = FormatStyle.BASIC.getFormatter().format(sql);
+//			}
+//
+//			if (StringUtils.hasText(sql)) {
+//				sql = FormatStyle.HIGHLIGHT.getFormatter().format(sql);
+//			}
+//
+//			sql = "|\nHeFormatSql(P6Spy sql,Hibernate format):" + sql;
+//		}
+//
+//		return sql;
+//	}
 //	// stack 콘솔 표기
 //	private String createStack(int connectionId, long elapsed) {
 //		Stack<String> callStack = new Stack<>();
