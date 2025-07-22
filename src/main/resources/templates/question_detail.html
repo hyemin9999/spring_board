@@ -9,8 +9,8 @@
 		<h2 class="border-bottom py-2" th:text="${question.subject}"></h2>
 		<div class="card my-3">
 			<div class="card-body">
-				<!-- 				<div class="card-text" -->
-				<!-- 					th:utext="${@commonUtil.markdown(question.content)}"></div> -->
+				<!-- <div class="card-text" -->
+				<!-- th:utext="${@commonUtil.markdown(question.content)}"></div> -->
 				<div id="viewer" class="card-text"></div>
 				<input type="hidden" id="ecp1" th:value="${question.content}">
 				<div class="d-flex justify-content-between mt-2">

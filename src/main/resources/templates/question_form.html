@@ -34,12 +34,11 @@
 		src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/lib/common"></script>
 	<script layout:fragment="script" type="text/javascript"
 		th:inline="javascript">
-
 		const editor = new toastui.Editor({
 			el : document.querySelector('#content'), // 에디터를 적용할 요소 (컨테이너)
 			height : '500px', // 에디터 영역의 높이 값 (OOOpx || auto)
 			initialEditType : 'markdown', // 최초로 보여줄 에디터 타입 (markdown || wysiwyg)
-			initialValue : document.querySelector('#ecp1').value, // 내용의 초기 값으로, 반드시 마크다운 문자열 형태여야 함
+			initialValue : '', // 내용의 초기 값으로, 반드시 마크다운 문자열 형태여야 함
 			previewStyle : 'vertical', // 마크다운 프리뷰 스타일 (tab || vertical)
 			addImageBlobHook : null,
 			toolbarItems : [ [ 'heading', 'bold', 'italic', 'strike' ],
@@ -49,8 +48,11 @@
 			placeholder : '내용을 입력해 주세요.',
 		});
 
+		editor.setMarkdown(document.querySelector('#ecp1').value);
+
 		document.querySelector('form').addEventListener('submit',
 				function(event) {
+					document.querySelector('#ecp1').value = '';
 					// 작성된 내용 가져오기
 					const content = editor.getMarkdown();
 					const encodedC = encodeURIComponent(content);

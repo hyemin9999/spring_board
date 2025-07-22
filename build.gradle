@@ -65,13 +65,13 @@ repositories {
 	annotationProcessor 'org.projectlombok:lombok'
 
 	// H2 (사용 안 하면 제거 가능)
-	// runtimeOnly 'com.h2database:h2'
+	 runtimeOnly 'com.h2database:h2'
 
 	//// ✅ MariaDB
     //runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
 
-// MysqlDB
-implementation 'mysql:mysql-connector-java:8.0.42'
+//// MysqlDB
+//implementation 'mysql:mysql-connector-java:8.0.42'
 
 
 	// JPA
